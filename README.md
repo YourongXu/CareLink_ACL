@@ -7,8 +7,6 @@ Patients recovering from **ACL (Anterior Cruciate Ligament) injuries** often fac
 
 These issues can slow down healing, reduce motivation, and increase the risk of long-term joint instability.
 
----
-
 ## Our Solution
 
 We developed a **smart rehabilitation device** to assist ACL patients during recovery. The device tracks the knee's flexion and alignment angles in real time, provides visual feedback, and suggests safe movement ranges. It also supports users when they try to bend further and acts as a personalized recovery coach.

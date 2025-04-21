@@ -1,0 +1,78 @@
+#include <Wire.h>
+#include <Adafruit_SSD1306.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_MPU6050.h>
+
+// OLED configuration
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+#define SCREEN_ADDRESS 0x3C
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire);
+
+// MPU6050 initialization
+Adafruit_MPU6050 mpu;
+
+void setup() {
+  Serial.begin(115200);
+
+  // Initialize OLED
+  if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
+    Serial.println("OLED initialization failed!");
+    while (1);
+  }
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(SSD1306_WHITE);
+
+  // Initialize MPU6050
+  if (!mpu.begin()) {
+    Serial.println("MPU6050 initialization failed!");
+    while (1);
+  } else {
+    Serial.println("MPU6050 initialized successfully!");
+  }
+}
+
+void loop() {
+  // Get MPU6050 sensor events
+  sensors_event_t a, g, temp;
+  mpu.getEvent(&a, &g, &temp);
+
+  // Display MPU6050 data on OLED
+  display.clearDisplay();
+  display.setCursor(0, 0);
+
+  display.print("Acc X: ");
+  display.print(a.acceleration.x, 1);
+  display.print(" Y: ");
+  display.print(a.acceleration.y, 1);
+  display.print(" Z: ");
+  display.println(a.acceleration.z, 1);
+
+  display.print("Gyro X: ");
+  display.print(g.gyro.x, 1);
+  display.print(" Y: ");
+  display.print(g.gyro.y, 1);
+  display.print(" Z: ");
+  display.println(g.gyro.z, 1);
+
+  display.display();
+
+  // Output to Serial Monitor
+  Serial.println("MPU6050 Data:");
+  Serial.print("Acc X: ");
+  Serial.print(a.acceleration.x, 1);
+  Serial.print(" Y: ");
+  Serial.print(a.acceleration.y, 1);
+  Serial.print(" Z: ");
+  Serial.println(a.acceleration.z, 1);
+
+  Serial.print("Gyro X: ");
+  Serial.print(g.gyro.x, 1);
+  Serial.print(" Y: ");
+  Serial.print(g.gyro.y, 1);
+  Serial.print(" Z: ");
+  Serial.println(g.gyro.z, 1);
+
+  delay(500);
+}
